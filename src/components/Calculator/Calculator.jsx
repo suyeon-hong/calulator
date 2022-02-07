@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 const numberFommatting = (number) => {
   return number.toLocaleString('KR', {
@@ -8,17 +8,17 @@ const numberFommatting = (number) => {
 };
 
 const Calculator = ({ data }) => {
-  const [currencies, setCurrencies] = useState(data.quotes);
-  const [fromNation, setFromNation] = useState('KRW');
+  const currencies = data.quotes;
+  const [toNation, setToNation] = useState('KRW');
   const [exchangeRate, setExchangeRate] = useState(
-    numberFommatting(data.quotes[`USDKRW`]),
+    numberFommatting(currencies['USDKRW']),
   );
   const remitInput = useRef('');
   const [receivable, setReceivable] = useState(0);
-  const [validate, setValidate] = useState(true);
+  const [isValidate, setIsValidate] = useState(true);
 
-  const checkNation = (e) => {
-    setFromNation(e.target.value);
+  const checkCurrenyInfo = (e) => {
+    setToNation(e.target.value);
     setExchangeRate(numberFommatting(currencies[`USD${e.target.value}`]));
   };
 
@@ -29,12 +29,12 @@ const Calculator = ({ data }) => {
   const calcAmount = () => {
     const input = remitInput.current.value;
     if (input === '' || input < 0 || input > 10000) {
-      setValidate(false);
+      setIsValidate(false);
       remitInput.current.value = '';
       return;
     }
-    setValidate(true);
-    const amount = input * currencies[`USD${fromNation}`];
+    setIsValidate(true);
+    const amount = input * currencies[`USD${toNation}`];
     setReceivable(numberFommatting(amount));
     remitInput.current.value = '';
   };
@@ -45,7 +45,7 @@ const Calculator = ({ data }) => {
       <p>송금국가 : 미국(USD)</p>
       <p>
         수취국가 :{' '}
-        <select onChange={checkNation}>
+        <select onChange={checkCurrenyInfo}>
           <option value="KRW">한국(KRW)</option>
           <option value="JPY">일본(JPY)</option>
           <option value="PHP">필리핀(PHP)</option>
@@ -53,7 +53,7 @@ const Calculator = ({ data }) => {
       </p>
       <p>
         환율 : {exchangeRate}
-        {fromNation}/USD
+        {toNation}/USD
       </p>
       <p>
         송금액 :{' '}
@@ -66,9 +66,9 @@ const Calculator = ({ data }) => {
         USD
       </p>
       <button onClick={calcAmount}>Submit</button>
-      {validate && validate ? (
+      {isValidate ? (
         <p>
-          수취금액은 {receivable} {fromNation} 입니다.
+          수취금액은 {receivable} {toNation} 입니다.
         </p>
       ) : (
         <p>송금액이 바르지 않습니다</p>
