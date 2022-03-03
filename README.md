@@ -18,7 +18,7 @@ git clone https://github.com/suyeon-hong/calulator.git
 yarn install
 ```
 
-3. .env 파일 생성하기
+3. .env 파일 생성하기 - [currencylayer](https://currencylayer.com/) api 이용
 
 ```
 REACT_APP_API_KEY = ''
