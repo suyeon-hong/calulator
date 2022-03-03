@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react';
 
-function reducer(state, action) {
+function reducer(_, action) {
   switch (action.type) {
     case 'LOADING':
       return {
