@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { numberFommatting } from 'components/utils/functions';
+import { useState } from 'react';
+import { checkValidation, numberFommatting } from 'components/utils/functions';
 import { NATION } from 'components/utils/constants';
 import styled from 'styled-components';
 
@@ -9,7 +9,7 @@ const Calculator = ({ data }) => {
   const [exchangeRate, setExchangeRate] = useState(
     numberFommatting(currencies['USDKRW']),
   );
-  const remitInput = useRef('');
+  const [userInput, setUserInput] = useState('');
   const [receivable, setReceivable] = useState(0);
   const [isValidate, setIsValidate] = useState(true);
 
@@ -19,20 +19,17 @@ const Calculator = ({ data }) => {
   };
 
   const handleChange = (e) => {
-    remitInput.current.value = e.target.value;
+    const target = e.target.value;
+    if (/\D/g.test(target)) return;
+
+    setUserInput(target);
   };
 
   const calcAmount = () => {
-    const input = remitInput.current.value;
-    if (input === '' || input < 0 || input > 10000) {
-      setIsValidate(false);
-      remitInput.current.value = '';
-      return;
-    }
-    setIsValidate(true);
-    const amount = input * currencies[`USD${toNation}`];
+    setIsValidate(checkValidation(userInput));
+    const amount = userInput * currencies[`USD${toNation}`];
     setReceivable(numberFommatting(amount));
-    remitInput.current.value = '';
+    setUserInput('');
   };
 
   return (
@@ -54,9 +51,9 @@ const Calculator = ({ data }) => {
       <p>
         송금액 :{' '}
         <input
-          type="number"
+          type="text"
           placeholder="0"
-          ref={remitInput}
+          value={userInput}
           onChange={handleChange}
         />
         USD
@@ -81,6 +78,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  input {
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    text-align: right;
+    padding: 0 5px;
+  }
 `;
 
 export default Calculator;

@@ -8,3 +8,11 @@ export const numberFommatting = (number) => {
 export const removeComma = (string) => {
   return string.replaceAll(',', '');
 };
+
+export const checkValidation = (userInput) => {
+  if (userInput === '' || userInput < 0 || userInput > 10000) {
+    return false;
+  } else {
+    return true;
+  }
+};
