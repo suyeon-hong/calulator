@@ -9,14 +9,15 @@ const UserInput = ({
   setFromNation,
 }) => {
   const changeHandler = (e) => {
-    if (e.target.value === '') {
+    const target = e.target.value;
+    if (target === '') {
       setUserInput('');
       return;
     }
 
-    const targetWithoutComma = removeComma(e.target.value);
+    const targetWithoutComma = removeComma(target);
 
-    if (/\D/g.test(targetWithoutComma)) return;
+    if (/\D/g.test(targetWithoutComma) | (targetWithoutComma > 10000)) return;
 
     setUserInput(parseInt(targetWithoutComma).toLocaleString());
     calcAmount();
