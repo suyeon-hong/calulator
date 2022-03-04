@@ -1,4 +1,4 @@
-# 💰환율계산기
+# 💰 axios로 환율데이터를 호출해 작동하는 환율계산기
 
 👉 [작업후기](https://velog.io/@suyeon-hong/%EB%A6%AC%EC%95%A1%ED%8A%B8-%ED%99%98%EC%9C%A8%EA%B3%84%EC%82%B0%EA%B8%B0-%EC%9E%91%EC%97%85-%ED%9B%84%EA%B8%B0)
 
