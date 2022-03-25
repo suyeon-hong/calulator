@@ -1,0 +1,3 @@
+[build]
+  command = "CI= yarn build"
+  publish = "build"
